@@ -84,6 +84,7 @@ class _FavoriteState extends State<Favorite> {
                       return favoritecard(
                         name: productitem[index].name,
                         price: productitem[index].price,
+                       
                       );
                     },
                   ),

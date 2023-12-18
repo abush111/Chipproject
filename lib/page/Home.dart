@@ -1,9 +1,12 @@
+import 'package:chipapp/bloc/Categorybloc/category_bloc.dart';
+import 'package:chipapp/bloc/Categorybloc/category_state.dart';
 import 'package:chipapp/helper/horizontalscrollwidget.dart';
+import 'package:chipapp/page/Categories.dart';
 import 'package:chipapp/page/latestproductData.dart';
 import 'package:chipapp/themes/custom_colors.dart';
 import 'package:chipapp/themes/theme_text.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:svg_flutter/svg.dart';
 
 class Home extends StatefulWidget {
@@ -84,29 +87,61 @@ class _HomeState extends State<Home> {
                 ),
                 GestureDetector(
                     onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => Categories()),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Categories()),
+                      );
                     },
                     child: Icon(Icons.arrow_forward)),
               ],
             ),
           ),
-          Container(
-            width: double.infinity,
-            margin: EdgeInsets.only(top: 15.0, left: 28.0),
-            height: 73,
-            child: ListView.separated(
-                padding: EdgeInsets.zero,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return HorizontalScrollWidget();
-                },
-                itemCount: 3,
-                separatorBuilder: (BuildContext context, int index) => SizedBox(
-                      width: 10,
-                    )),
+          BlocBuilder<CategoryBloc, CategoryState>(
+            builder: (context, state) {
+              if (state is CategoryInitialState) {
+                // Display your data here
+                return Container(
+                  child: Text(""),
+                );
+              } else if (state is CategoryErrorState) {
+                return Center(
+                  child: Text('Error: ${state.error}'),
+                );
+              } else if (state is CategoryLoadedState) {
+                // return ListView.builder(
+                //   itemCount: state.productModel.data.length,
+                //   itemBuilder: (context, index) {
+                //     return (Text(index.toString()));
+                //   },
+                // );
+                return Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.only(top: 15.0, left: 28.0),
+                  height: 73,
+                  child: ListView.separated(
+                      padding: EdgeInsets.zero,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                          height: 73,
+                          child: HorizontalScrollWidget(
+                            imageurl: state.categoryModel[index].primaryImage,
+                          ),
+                        );
+                      },
+                      itemCount: state.categoryModel.length,
+                      separatorBuilder: (BuildContext context, int index) =>
+                          SizedBox(
+                            width: 10,
+                          )),
+                );
+              } else {
+                // Loading state
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
           )
 
           //

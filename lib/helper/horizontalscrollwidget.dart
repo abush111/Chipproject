@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:svg_flutter/svg.dart';
 
 class HorizontalScrollWidget extends StatelessWidget {
-  const HorizontalScrollWidget({super.key});
+  final imageurl;
+  const HorizontalScrollWidget({super.key, this.imageurl});
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +28,8 @@ class HorizontalScrollWidget extends StatelessWidget {
       ),
       // Add your card content here
       child: Center(
-        child: SvgPicture.asset(
-          'assets/images/Group 381.svg', // Replace with the path to your SVG file
+        child: Image.network(
+          "https://productionchipchip.fra1.digitaloceanspaces.com/$imageurl", // Replace with the path to your SVG file
           width: 40, // Width in logical pixels
           height: 40, // Adjust the height as needed
         ),

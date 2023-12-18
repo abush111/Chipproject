@@ -20,9 +20,10 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  void init() {
-    sl<ProductBloc>().add(FetchProductEvent());
-    sl<CartBloc>().add(FetchCartEvent());
+  final CartBloc cartBloc = CartBloc();
+  @override
+  void initState() {
+    cartBloc.add(FetchCartEvent());
 
     super.initState();
   }
@@ -72,6 +73,7 @@ class _CartPageState extends State<CartPage> {
                         child: SizedBox(
                           height: height,
                           child: ListView.separated(
+                            physics: AlwaysScrollableScrollPhysics(),
                             padding: EdgeInsets.zero,
                             itemBuilder: (context, index) {
                               return cartCard(

@@ -13,6 +13,7 @@ class Productrepo {
     var token = prefs.getString('access');
     try {
       final response = await http.get(
+
         Uri.parse("https://stagingapi.chipchip.social/v1/products"),
         headers: {
           'Authorization': 'Bearer $token',
@@ -24,6 +25,7 @@ class Productrepo {
         // Parse the response JSON
         final dynamic jsonResponse = json.decode(response.body);
 
+        
         // Check if the JSON is a List
         if (jsonResponse is Map<String, dynamic> &&
             jsonResponse.containsKey('data')) {

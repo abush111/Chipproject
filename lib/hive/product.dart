@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:hive/hive.dart';
 
 part 'product.g.dart';
@@ -12,11 +11,11 @@ class Product {
   double price;
 
   @HiveField(2)
-  Uint8List imageBytes;
+  bool favorite;
 
   Product({
     required this.name,
     required this.price,
-    required this.imageBytes,
+    this.favorite = false, // Default value set to false
   });
 }

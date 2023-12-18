@@ -1,19 +1,14 @@
 import 'package:chipapp/themes/theme_text.dart';
 import 'package:flutter/material.dart';
-import 'package:svg_flutter/svg.dart';
-
 class cardWidget extends StatelessWidget {
   final categoyname;
-  const cardWidget({super.key, this.categoyname});
-  
+  final imageurl;
+  const cardWidget({super.key, this.categoyname, this.imageurl});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-
-
-      },
+      onTap: () {},
       child: Container(
         margin: EdgeInsets.only(
           top: 28.0,
@@ -37,8 +32,8 @@ class cardWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              'assets/images/Group 379.svg', // Replace with the path to your SVG file
+            Image.network(
+              "https://productionchipchip.fra1.digitaloceanspaces.com/$imageurl", // Replace with the path to your SVG file
               width: 71.6, // Width in logical pixels
               height: 71.6, // Adjust the height as needed
             ),

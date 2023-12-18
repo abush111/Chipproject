@@ -64,7 +64,7 @@ class cartCard extends StatelessWidget {
                 ],
               )),
           SizedBox(
-            width: 60,
+            width: 50,
           ),
           SizedBox(
               height: 115,

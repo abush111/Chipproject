@@ -48,8 +48,8 @@ class leastestProductCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      "assets/images/Rectangle 246.png",
+                    Image.network(
+                      "https://productionchipchip.fra1.digitaloceanspaces.com/$imageurl",
                       width: 150,
                       height: 90,
                     ),
@@ -62,11 +62,17 @@ class leastestProductCard extends StatelessWidget {
                       onTap: () {
                         onDataUpdate();
                       },
-                      child: SvgPicture.asset(
-                        'assets/images/ic_wishlistnotfovirite.svg', // Replace with the path to your SVG file
-                        width: 24, // Width in logical pixels
-                        height: 24, // Adjust the height as needed
-                      )),
+                      child: detail == true
+                          ? SvgPicture.asset(
+                              'assets/images/ic_wishlistfovarite.svg', // Replace with the path to your SVG file
+                              width: 24, // Width in logical pixels
+                              height: 24, // Adjust the height as needed
+                            )
+                          : SvgPicture.asset(
+                              'assets/images/ic_wishlistnotfovirite.svg', // Replace with the path to your SVG file
+                              width: 24, // Width in logical pixels
+                              height: 24, // Adjust the height as needed
+                            )),
                 ),
               ],
             ),

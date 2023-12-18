@@ -83,7 +83,7 @@ class _CategoriesState extends State<Categories> {
                 itemBuilder: (context, index) {
                   return cardWidget(
                     categoyname: state.categoryModel[index].name,
-                    // imageurl: state.productModel[index].primaryImage,
+                    imageurl: state.categoryModel[index].primaryImage,
                     // price: state.productModel[index].singleDeal.originalPrice,
                     // nameitem: state.productModel[index].name,
                   );

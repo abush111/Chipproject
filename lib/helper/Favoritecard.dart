@@ -7,7 +7,8 @@ import 'package:svg_flutter/svg_flutter.dart';
 class favoritecard extends StatelessWidget {
   final name;
   final price;
-  const favoritecard({super.key, this.name, this.price});
+  final imageurl;
+  const favoritecard({super.key, this.name, this.price, this.imageurl});
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +24,10 @@ class favoritecard extends StatelessWidget {
             ListTile(
               leading: ClipRRect(
                 borderRadius: BorderRadius.circular(18),
-                child: Image.asset(
-                  "assets/images/placeholderb.png",
+                child: Image.network(
+                  "https://productionchipchip.fra1.digitaloceanspaces.com/product/ba0a94c1-0f9e-40fd-a27c-ab8782ca19be.jpg", // Replace with the path to your SVG file
                   height: 113,
-                  width: 93,
-                  fit: BoxFit.cover,
+                  width: 93, // Adjust the height as needed
                 ),
               ),
               title: Container(

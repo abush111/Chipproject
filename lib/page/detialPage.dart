@@ -9,10 +9,12 @@ class detailPage extends StatelessWidget {
   String discription;
   String price;
   String name;
+  String imagrurl;
   detailPage(
       {super.key,
       required this.discription,
       required this.name,
+       required this.imagrurl,
       required this.price});
 
   TextEditingController emailController = TextEditingController();
@@ -27,8 +29,8 @@ class detailPage extends StatelessWidget {
         child: Stack(children: [
           Stack(
             children: [
-              Image.asset(
-                "assets/images/Rectangle 244.png",
+              Image.network(
+                "https://productionchipchip.fra1.digitaloceanspaces.com/$imagrurl",
                 height: 280,
                 width: width,
                 fit: BoxFit.cover,

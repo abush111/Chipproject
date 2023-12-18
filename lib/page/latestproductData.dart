@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:chipapp/api_reposirty/favorite_repository.dart';
@@ -30,7 +31,29 @@ class _latestproductDataState extends State<latestproductData> {
     super.initState();
   }
 
-  bool clilck = true;
+  List productitem = [];
+  List<bool> clickList = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ];
+
+  Future<void> fetch() async {
+    final productStorage = ProductStorage();
+
+    // Get all products
+    productitem = await productStorage.getProducts();
+    ; // Print the fetched products
+  }
+
+  Future<Uint8List> getImageBytes(String imagePath) async {
+    File file = File(imagePath);
+    return await file.readAsBytes();
+  }
+
   @override
   Widget build(BuildContext context) {
     final CartBloc cartBloc = CartBloc();
@@ -49,12 +72,6 @@ class _latestproductDataState extends State<latestproductData> {
               child: Text('Error: ${state.error}'),
             );
           } else if (state is ProductLoadedState) {
-            // return ListView.builder(
-            //   itemCount: state.productModel.data.length,
-            //   itemBuilder: (context, index) {
-            //     return (Text(index.toString()));
-            //   },
-            // );
             return Container(
               height: height,
               margin: EdgeInsets.only(top: 15.0, left: 28.0, right: 28.0),
@@ -69,11 +86,9 @@ class _latestproductDataState extends State<latestproductData> {
                 itemCount: state.productModel.length -
                     4, // Number of cards in the grid
                 itemBuilder: (context, index) {
-                  return InkWell(
+                  return GestureDetector(
                     onDoubleTap: () {
-                      setState(() {
-                        clilck = false;
-                      });
+                      setState(() {});
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -83,18 +98,23 @@ class _latestproductDataState extends State<latestproductData> {
                                   name: state.productModel[index].name,
                                   price: state.productModel[index].singleDeal
                                       .originalPrice,
+                                  imagrurl:
+                                      state.productModel[index].primaryImage,
                                 )),
                       );
                     },
                     child: leastestProductCard(
                         onDataUpdate: () async {
                           final productStorage = ProductStorage();
+                          setState(() {
+                            clickList[index] = true;
+                          });
+
                           await productStorage.saveProduct(Product(
                             name: state.productModel[index].name,
                             price: double.parse(state
                                 .productModel[index].singleDeal.originalPrice),
-                            imageBytes: Uint8List.fromList(
-                                []), // Replace with actual image bytes
+                            favorite: false,
                           ));
                         },
                         imageurl: state.productModel[index].primaryImage,
@@ -119,7 +139,7 @@ class _latestproductDataState extends State<latestproductData> {
 
                           // Dispatch the AddToCartEvent
                         },
-                        detail: false),
+                        detail: clickList[index]),
                   );
                 },
               ),

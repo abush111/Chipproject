@@ -1,3 +1,6 @@
+import 'package:chipapp/bloc/cartbloc/cartbloc.dart';
+import 'package:chipapp/bloc/cartbloc/cartevent.dart';
+import 'package:chipapp/bloc/cartbloc/cartstate.dart';
 import 'package:chipapp/constants/constants.dart';
 import 'package:chipapp/page/Categories.dart';
 
@@ -5,10 +8,12 @@ import 'package:chipapp/page/Home.dart';
 import 'package:chipapp/page/cartpage.dart';
 import 'package:chipapp/page/favorite.dart';
 import 'package:chipapp/page/profilepage.dart';
+import 'package:chipapp/service_locator.dart';
 import 'package:chipapp/themes/custom_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:svg_flutter/svg.dart';
@@ -31,6 +36,9 @@ class BottomNaState extends State<BottomNav>
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
+
+    sl<CartBloc>().add(FetchCartEvent());
+
     _tabController!.addListener(() {
       setState(() {
         _selectedIndex = _tabController!.index;
@@ -112,19 +120,39 @@ class BottomNaState extends State<BottomNav>
 
 // Adjust the height as needed
                   )
-                : Badge.count(
-                    count: count,
-                    backgroundColor:
-                        CustomColors.onbroadingbackground.withOpacity(1),
-                    textColor: Colors.white,
-                    child: SvgPicture.asset(
-                      "assets/images/ic_cart.svg", // Replace with the path to your SVG file
+                : BlocBuilder<CartBloc, CartState>(
+                    builder: (context, state) {
+                      if (state is CartInitialState) {
+                        // Display your data here
+                        return Container(
+                          child: Text(""),
+                        );
+                      } else if (state is CartErrorState) {
+                        return Center(
+                          child: Text('Error: ${state.error}'),
+                        );
+                      } else if (state is CartLoadedState) {
+                        return Badge.count(
+                          count: state.cartItems.length,
+                          backgroundColor:
+                              CustomColors.onbroadingbackground.withOpacity(1),
+                          textColor: Colors.white,
+                          child: SvgPicture.asset(
+                            "assets/images/ic_cart.svg", // Replace with the path to your SVG file
 
-                      width: 24,
-                      height: 24,
+                            width: 24,
+                            height: 24,
 
-                      // Adjust the height as needed
-                    ),
+                            // Adjust the height as needed
+                          ),
+                        );
+                      } else {
+                        // Loading state
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    },
                   ),
           ),
           BottomNavigationBarItem(

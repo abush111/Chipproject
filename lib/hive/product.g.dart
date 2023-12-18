@@ -19,7 +19,7 @@ class ProductAdapter extends TypeAdapter<Product> {
     return Product(
       name: fields[0] as String,
       price: fields[1] as double,
-      imageBytes: fields[2] as Uint8List,
+      favorite: fields[2] as bool,
     );
   }
 
@@ -32,7 +32,7 @@ class ProductAdapter extends TypeAdapter<Product> {
       ..writeByte(1)
       ..write(obj.price)
       ..writeByte(2)
-      ..write(obj.imageBytes);
+      ..write(obj.favorite);
   }
 
   @override
